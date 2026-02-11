@@ -4,14 +4,13 @@ from langchain_pinecone import PineconeVectorStore
 
 
 
-import getpass
-import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv(r"D:\Copilot\ai-copilot\.env")
-print(os.getenv("OPENAI_API_KEY"))
-if not os.environ.get("OPENAI_API_KEY"):
-    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter API key for OpenAI: ")
+# Load .env from backend directory
+backend_dir = Path(__file__).parent.parent
+env_path = backend_dir / ".env"
+load_dotenv(str(env_path))
 
 import openai
 

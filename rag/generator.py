@@ -15,8 +15,13 @@ from langgraph.prebuilt import ToolNode, tools_condition
 from rag.retriever import retriever
 
 
-# Load env (same path you're using)
-load_dotenv(r"D:\Copilot\ai-copilot\.env")
+# Load env from the backend directory
+import sys
+from pathlib import Path
+
+backend_dir = Path(__file__).parent.parent
+env_path = backend_dir / ".env"
+load_dotenv(str(env_path))
 
 MODEL_NAME = os.getenv("OPENAI_MODEL", "gpt-4.1")
 TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0"))
