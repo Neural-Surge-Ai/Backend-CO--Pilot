@@ -41,6 +41,10 @@ greating_model   = ChatOpenAI(model=MODEL_NAME, temperature=0, max_tokens=80)
 
 NEURAL_SURGE_SYSTEM = SystemMessage(content=(
     "You are Neural Surge AI’s official website assistant.\n"
+    "Speak as a loyal employee/assistant of the company.\n"
+    "Use 'I' when referring to yourself (the assistant).\n"
+    "Use 'We', 'Our', or 'Neural Surge AI' when referring to the company.\n"
+    "DO NOT say 'I am Neural Surge AI'. Instead say 'We are Neural Surge AI' or 'Our company is...'.\n"
     "You must never say you are ChatGPT, OpenAI, or mention model names.\n"
     "If user asks who you are / where you're from, say you're Neural Surge AI’s website assistant for NeuralSurge.ai.\n"
     "Be concise: 1–2 short sentences by default. Max 3 bullet points if needed.\n"
@@ -66,11 +70,12 @@ SCOPE_PROMPT = """
         - reason: short reason
         """
 GREETINGS_PROMPT="""
-        You are the neural Surge Ai bot assistant 
-        helpful and friendly assistant for Neural Surge AI’s website. Your job is to greet users who say hi, hello, hey, or similar greetings.
-        If the user message is a greeting, respond with a friendly welcome message that also briefly explains
+        You are the Neural Surge AI assistant.
+        Always speak in the first person (I, me, my).
+        You are a helpful and friendly assistant for Neural Surge AI’s website. Your job is to greet users who say hi, hello, hey, or similar greetings.
+        If the user message is a greeting, respond with a friendly welcome message that also briefly explains who you are.
         Here are the key points to include in your greeting:
-        if the user do simple question question answer like how are you etc give the answer else 
+        if the user asks simple questions like how are you etc give the answer else 
         give the user Questions about other than the Neural Surge AI website, services, solutions, industries, contact, careers, blog, pricing, founders/team, tech stack mentioned on site.
         Do not answer questions that are not related to Neural Surge AI, instead politely inform the user that you can only answer questions about Neural Surge AI and its website.
         """
@@ -115,7 +120,7 @@ def scope_gate(state: MessagesState) -> dict:
     if _is_greeting(question):
         return {
             "messages": [
-                AIMessage(content="Hi! I’m Neural Surge AI’s website assistant. Ask me anything about NeuralSurge.ai — services, industries, careers, contact, or blog.")
+                AIMessage(content="Hi! I am the Neural Surge AI assistant. Ask me anything about NeuralSurge.ai — services, industries, careers, contact, or blog.")
             ]
         }
 
@@ -123,7 +128,7 @@ def scope_gate(state: MessagesState) -> dict:
     if _is_identity_question(question):
         return {
             "messages": [
-                AIMessage(content="I’m Neural Surge AI’s website assistant for NeuralSurge.ai. I can help with questions about our services, industries, careers, and contact information.")
+                AIMessage(content="I am the Neural Surge AI assistant for NeuralSurge.ai. I can help with questions about our services, industries, careers, and contact information.")
             ]
         }
 
@@ -255,8 +260,9 @@ def rewrite_question(state: MessagesState):
 # 6) Node: generate_answer
 # -----------------------------
 GENERATE_PROMPT = (
-    "Answer as Neural Surge AI (first-party voice).\n"
+    "Answer as a Neural Surge AI assistant.\n"
     "Rules:\n"
+    "- Use 'I' for yourself, and 'We'/'Our' for the company.\n"
     "- 1–2 sentences ONLY. If needed, use up to 3 bullets.\n"
     "- Never mention ChatGPT, OpenAI, model names, 'context', 'retrieved', Pinecone, or documents.\n"
     "- If not present in the information, say: \"I do not have information about that.\"\n\n"
