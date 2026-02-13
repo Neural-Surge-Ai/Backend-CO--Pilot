@@ -191,6 +191,7 @@ def retrieve_neuralsurge_context(query: str) -> str:
     Search and return information about NeuralSurge.ai from the Pinecone vector index.
     """
     docs = retriever.invoke(query)
+    print(docs)
     return _format_docs(docs)
 
 
