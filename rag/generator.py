@@ -12,8 +12,8 @@ from langgraph.graph import MessagesState, StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
 # ✅ Import your Pinecone retriever
-from rag.retriever import retriever
-from rag.linkdin_retriever import linkedin_retriever
+from retriever import retriever
+from linkdin_retriever import linkedin_retriever
 
 
 # Load env from the backend directory
@@ -421,8 +421,7 @@ workflow.add_conditional_edges("retrieve", grade_documents)
 workflow.add_conditional_edges("linkedin_retrieve", grade_documents)
 
 workflow.add_edge("generate_answer", END)
-workflow.add_edge("rewrite_question", "generate_query_or_respond")
-workflow.add_edge("rewrite_question", "linkedin_generate_query_or_respond")
+workflow.add_edge("rewrite_question", "SOURCE_ROUTER")
 
 graph = workflow.compile()
 
