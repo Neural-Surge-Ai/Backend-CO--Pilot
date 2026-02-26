@@ -27,9 +27,10 @@ load_dotenv(str(env_path))
 MODEL_NAME = os.getenv("OPENAI_MODEL", "gpt-4.1")
 TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0"))
 
-MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "180"))
+MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "500"))
 
-response_model = ChatOpenAI(model=MODEL_NAME, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
+response_model = ChatOpenAI(model=MODEL_NAME, temperature=TEMPERATURE,max_tokens=MAX_TOKENS)
+neural_surge_response_model = ChatOpenAI(model=MODEL_NAME, temperature=TEMPERATURE)
 grader_model   = ChatOpenAI(model=MODEL_NAME, temperature=0, max_tokens=80)
 scope_model    = ChatOpenAI(model=MODEL_NAME, temperature=0, max_tokens=80)
 greating_model   = ChatOpenAI(model=MODEL_NAME, temperature=0, max_tokens=80)
@@ -47,7 +48,7 @@ NEURAL_SURGE_SYSTEM = SystemMessage(content=(
     "DO NOT say 'I am Neural Surge AI'. Instead say 'We are Neural Surge AI' or 'Our company is...'.\n"
     "You must never say you are ChatGPT, OpenAI, or mention model names.\n"
     "If user asks who you are / where you're from, say you're Neural Surge AI’s website assistant for NeuralSurge.ai.\n"
-    "Be concise: 1–2 short sentences by default. Max 3 bullet points if needed.\n"
+    "Give the reponse a professional tone and make sure it is relevant to the question and stick to the user question do not think the answer on your own. giving how the AI/ML integration/solutions according to if the context provieded a brief response a explained response in steps by steps\n"
     "If information is not available, say: \"I do not have information about that.\""
 ))
 
@@ -356,7 +357,7 @@ def generate_answer(state: MessagesState):
     context = state["messages"][-1].content
     prompt = GENERATE_PROMPT.format(question=question, context=context)
 
-    response = response_model.invoke([
+    response = neural_surge_response_model.invoke([
         NEURAL_SURGE_SYSTEM,
         {"role": "user", "content": prompt},
     ])
