@@ -12,8 +12,8 @@ from langgraph.graph import MessagesState, StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
 # ✅ Import your Pinecone retriever
-from retriever import retriever
-from linkdin_retriever import linkedin_retriever
+from rag.retriever import retriever
+from rag.linkdin_retriever import linkedin_retriever
 
 
 # Load env from the backend directory
