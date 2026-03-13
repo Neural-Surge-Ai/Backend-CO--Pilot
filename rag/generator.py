@@ -12,8 +12,8 @@ from langgraph.graph import MessagesState, StateGraph, START, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
 # ✅ Import your Pinecone retriever
-from rag.retriever import retriever
-from rag.linkdin_retriever import linkedin_retriever
+from retriever import retriever
+from linkdin_retriever import linkedin_retriever
 
 
 # Load env from the backend directory
@@ -82,6 +82,7 @@ SCOPE_PROMPT = """
         - Questions about the company's location, office address, headquarters, or operating regions.
 
         OUT OF SCOPE examples:
+        - Note : Give No to every question that is not Realted to IT Field .
         - Totally unrelated questions like to our Website or Unrealted to services we are offering like what is basket ball etc or questions not realated to AI return no for that.
 
         User question:
